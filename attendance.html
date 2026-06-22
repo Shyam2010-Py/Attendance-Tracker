@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Tracker — Attendance Entry</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#3b82f6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Attendance" />
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <div class="brand">📘 Attendance Tracker</div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="attendance.html">Attendance</a>
+      <a href="reports.html">Reports</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>📅 Attendance Entry</h1>
+  <p class="subtitle">Select a student and month, then enter working & attended days for both phases.</p>
+
+  <!-- Empty state when no students exist -->
+  <section class="card" id="emptyStudents" style="display:none; text-align:center;">
+    <p style="color: var(--muted); margin-bottom: 12px;">
+      ⚠️ No students found. Please add students before entering attendance.
+    </p>
+    <a href="students.html" class="btn">Go to Students Page</a>
+  </section>
+
+  <!-- Selection + Entry Form -->
+  <section class="card">
+    <h2>Select Student & Month</h2>
+    <form id="attendanceForm" autocomplete="off">
+      <div class="selector-row">
+        <div class="form-field">
+          <label for="studentSelect">Student</label>
+          <select id="studentSelect" class="select-field" required>
+            <option value="">-- Select Student --</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="monthSelect">Month</label>
+          <select id="monthSelect" class="select-field" required>
+            <!-- populated by JS -->
+          </select>
+        </div>
+      </div>
+
+      <div class="info-bar" id="lastSaved" style="display:none;"></div>
+
+      <!-- Phase 1 -->
+      <div class="phase-block">
+        <h3>First Half Attendance <span class="range">1 – 15</span></h3>
+        <div class="phase-grid">
+          <div class="form-field">
+            <label for="p1Working">Working Days</label>
+            <input type="number" id="p1Working" min="0" max="15" step="1" placeholder="e.g. 12" />
+          </div>
+          <div class="form-field">
+            <label for="p1Attended">Attended Days</label>
+            <input type="number" id="p1Attended" min="0" max="15" step="1" placeholder="e.g. 10" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase-block">
+        <h3>Second Half Attendance <span class="range">16 – 30 / 31</span></h3>
+        <div class="phase-grid">
+          <div class="form-field">
+            <label for="p2Working">Working Days</label>
+            <input type="number" id="p2Working" min="0" max="16" step="1" placeholder="e.g. 14" />
+          </div>
+          <div class="form-field">
+            <label for="p2Attended">Attended Days</label>
+            <input type="number" id="p2Attended" min="0" max="16" step="1" placeholder="e.g. 13" />
+          </div>
+        </div>
+      </div>
+
+      <div class="error-msg" id="formMessage"></div>
+
+      <div class="save-row">
+        <button type="submit" id="saveBtn" class="btn">💾 Save Attendance</button>
+        <button type="button" id="clearBtn" class="btn secondary">Clear Fields</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ============================
+       SECTION 1: Student Information Card
+       ============================ -->
+  <section class="student-info-card" id="studentInfoCard">
+    <div class="info-avatar">👤</div>
+    <div class="info-body">
+      <div class="info-label">Student Information</div>
+      <div class="info-row">
+        <span class="info-key">Name</span>
+        <span class="info-val" id="infoName">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">PIN</span>
+        <span class="info-val" id="infoPin">—</span>
+      </div>
+      <div class="info-row">
+        <span class="info-key">Month</span>
+        <span class="info-val" id="infoMonth">—</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       SECTION 2: Phase Attendance Cards
+       ============================ -->
+  <section class="phase-cards-row">
+    <article class="phase-stat-card none" id="p1StatCard">
+      <header>
+        <span class="phase-icon">📅</span>
+        <div>
+          <div class="phase-title">Phase 1</div>
+          <div class="phase-sub">1 – 15</div>
+        </div>
+        <span class="status-pill none" id="p1StatusPill">No Data</span>
+      </header>
+      <div class="phase-figure">
+        <span class="ratio" id="p1Ratio">0 / 0</span>
+        <span class="ratio-label">attended / working</span>
+      </div>
+      <div class="phase-pct" id="p1StatPct">0.00%</div>
+    </article>
+
+    <article class="phase-stat-card none" id="p2StatCard">
+      <header>
+        <span class="phase-icon">📅</span>
+        <div>
+          <div class="phase-title">Phase 2</div>
+          <div class="phase-sub">16 – 30 / 31</div>
+        </div>
+        <span class="status-pill none" id="p2StatusPill">No Data</span>
+      </header>
+      <div class="phase-figure">
+        <span class="ratio" id="p2Ratio">0 / 0</span>
+        <span class="ratio-label">attended / working</span>
+      </div>
+      <div class="phase-pct" id="p2StatPct">0.00%</div>
+    </article>
+  </section>
+
+  <!-- ============================
+       SECTION 3: Monthly Highlight Card
+       ============================ -->
+  <section class="monthly-highlight none" id="monthlyHighlight">
+    <div class="mh-top">
+      <div>
+        <div class="mh-label">Monthly Attendance</div>
+        <div class="mh-sub" id="mhSub">Phase 1 + Phase 2 combined</div>
+      </div>
+      <span class="status-pill" id="monthlyStatusPill">No Data</span>
+    </div>
+    <div class="mh-main">
+      <div class="mh-pct" id="mhPct">0.00%</div>
+      <div class="mh-figure">
+        <span class="ratio" id="mhRatio">0 / 0</span>
+        <span class="ratio-label">total attended / total working</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       SECTION 4: Saved Record Summary (compact)
+       ============================ -->
+  <section class="card">
+    <h2>Saved Record Summary</h2>
+    <div class="summary-box" id="summaryBox" style="display:none;">
+      <div class="row"><span>Student</span><strong id="sumStudent">—</strong></div>
+      <div class="row"><span>Month</span><strong id="sumMonth">—</strong></div>
+      <div class="row"><span>Phase 1 (1–15)</span><strong id="sumP1">0 / 0</strong></div>
+      <div class="row"><span>Phase 2 (16–30/31)</span><strong id="sumP2">0 / 0</strong></div>
+      <div class="row"><span>Total</span><strong id="sumTotal">0 / 0</strong></div>
+    </div>
+    <p id="noSummary" style="color: var(--muted); font-size:0.88rem;">
+      Select a student & month above. If a record already exists, it will load here automatically.
+    </p>
+  </section>
+
+  <!-- ============================
+       SECTION 5: Overall Attendance Card (Day 5)
+       Aggregated across ALL saved months for the selected student
+       ============================ -->
+  <section class="monthly-highlight none" id="overallHighlight">
+    <div class="mh-top">
+      <div>
+        <div class="mh-label">📈 Overall Attendance</div>
+        <div class="mh-sub" id="overallSub">Select a student to see overall attendance</div>
+      </div>
+      <span class="status-pill" id="overallStatusPill">No Data</span>
+    </div>
+    <div class="mh-main">
+      <div class="mh-pct" id="overallPct">0.00%</div>
+      <div class="mh-figure">
+        <span class="ratio" id="overallRatio">0 / 0</span>
+        <span class="ratio-label">total attended / total working (all months)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       SECTION 6: Monthly Breakdown (Day 5, read-only)
+       Per-month % for the selected student
+       ============================ -->
+  <section class="card">
+    <h2>📅 Monthly Breakdown</h2>
+    <p class="muted-line" id="breakdownHint">
+      Select a student to see a month-wise breakdown of their attendance percentages.
+    </p>
+    <div class="breakdown-list" id="breakdownList"></div>
+    <div class="empty-state" id="breakdownEmpty" style="display:none;">
+      No monthly records saved for this student yet.
+    </div>
+  </section>
+</main>
+
+<footer>Attendance Tracker v1.0.0 · Attendance Entry</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+<script src="js/attendance.js"></script>
+</body>
+</html>

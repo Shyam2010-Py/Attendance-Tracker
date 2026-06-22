@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Tracker — Sign In</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#3b82f6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Attendance" />
+</head>
+<body class="auth-body">
+
+<main class="auth-wrap">
+  <section class="auth-card">
+    <div class="auth-brand">
+      <div class="auth-logo">📘</div>
+      <h1 class="auth-title">Attendance Tracker</h1>
+      <p class="auth-sub">Enter your access code to continue</p>
+    </div>
+
+    <form id="loginForm" class="auth-form" autocomplete="off" novalidate>
+      <label for="loginPassword" class="auth-label">Access Code</label>
+      <div class="auth-input-row">
+        <input
+          type="password"
+          id="loginPassword"
+          class="auth-input"
+          placeholder="Enter access code"
+          autocomplete="current-password"
+          required
+        />
+        <button type="button" id="togglePassword" class="auth-eye" aria-label="Show password">👁️</button>
+      </div>
+
+      <div id="loginError" class="auth-error" role="alert" aria-live="polite"></div>
+
+      <button type="submit" id="loginSubmit" class="btn auth-submit">🔓 Sign In</button>
+
+      <div class="auth-foot">
+        <a href="#" id="forgotLink" class="auth-link">Forgot access code?</a>
+      </div>
+    </form>
+
+    <p class="auth-note">
+      🔒 Default code on first run: <code>AT2026</code><br/>
+      You can change it later from <strong>Settings → Security</strong>.
+    </p>
+  </section>
+
+  <footer class="auth-footer">Attendance Tracker v1.1.0 · Secure Sign-In</footer>
+</main>
+
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>

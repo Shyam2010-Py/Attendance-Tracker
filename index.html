@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <body>
+
+<script>
+const password = "AT2026";
+
+if(localStorage.getItem("auth") !== "yes"){
+    const input = prompt("Enter Access Code");
+
+    if(input === password){
+        localStorage.setItem("auth","yes");
+    } else {
+        alert("Wrong Password");
+        location.reload();
+    }
+}
+</script>
+
+<!-- Rest of your page starts here -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Tracker — Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#3b82f6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Attendance" />
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <div class="brand">📘 Attendance Tracker</div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="attendance.html">Attendance</a>
+      <a href="reports.html">Reports</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ============================
+       SECTION 1: Welcome / Hero
+       ============================ -->
+  <section class="dash-hero">
+    <div class="dash-hero-icon">📘</div>
+    <div class="dash-hero-body">
+      <div class="dash-hero-label">Welcome Back</div>
+      <h1 class="dash-hero-title" id="dashTitle">Hello 👋</h1>
+      <p class="dash-hero-sub" id="todayDate">—</p>
+    </div>
+    <div class="dash-hero-meta">
+      <span class="status-pill none" id="dashOverallPill">No Data</span>
+    </div>
+  </section>
+
+  <!-- ============================
+       SECTION 2: 4 Stat Cards (Day 6 intelligence)
+       ============================ -->
+  <section class="summary-grid">
+    <article class="summary-card none" id="cardStudents">
+      <div class="sc-icon">👨‍🎓</div>
+      <span class="num" id="totalStudents">0</span>
+      <span class="label">Total Students</span>
+      <span class="card-sub" id="totalStudentsSub">—</span>
+    </article>
+
+    <article class="summary-card none" id="cardClassAvg">
+      <div class="sc-icon">📊</div>
+      <span class="num" id="classAvg">0.00%</span>
+      <span class="label">Class Average Attendance</span>
+      <span class="card-sub" id="classAvgSub">—</span>
+      <span class="status-pill none" id="classAvgPill">No Data</span>
+    </article>
+
+    <article class="summary-card none" id="cardExcellent">
+      <div class="sc-icon">🌟</div>
+      <span class="num" id="excellentCount">0</span>
+      <span class="label">Excellent Students</span>
+      <span class="card-sub" id="excellentSub">Overall ≥ 90%</span>
+    </article>
+
+    <article class="summary-card none" id="cardWarning">
+      <div class="sc-icon">⚠️</div>
+      <span class="num" id="warningCount">0</span>
+      <span class="label">Warning Students</span>
+      <span class="card-sub" id="warningSub">Overall &lt; 75%</span>
+    </article>
+  </section>
+
+  <!-- ============================
+       SECTION 3: Class Statistics (Highest / Lowest / Average)
+       ============================ -->
+  <section class="card">
+    <h2>📈 Class Statistics</h2>
+    <div class="class-stats-grid" id="classStatsCard">
+      <div class="stat-tile stat-high">
+        <div class="stat-tile-label">Highest Attendance</div>
+        <div class="stat-tile-value" id="statHighest">—</div>
+      </div>
+      <div class="stat-tile stat-avg">
+        <div class="stat-tile-label">Class Average</div>
+        <div class="stat-tile-value" id="statAvg">—</div>
+      </div>
+      <div class="stat-tile stat-low">
+        <div class="stat-tile-label">Lowest Attendance</div>
+        <div class="stat-tile-value" id="statLowest">—</div>
+      </div>
+    </div>
+    <div class="empty-state" id="classStatsEmpty" style="display:none;">
+      No attendance data yet. Add students and save attendance to see class statistics.
+    </div>
+  </section>
+
+  <!-- ============================
+       SECTION 4: Recent Activity (latest saved record)
+       ============================ -->
+  <section class="card">
+    <h2>🕒 Recent Activity</h2>
+    <div class="recent-card" id="recentCard">
+      <div class="recent-main">
+        <div class="recent-pct" id="recentPct">0.00%</div>
+        <div class="recent-meta">
+          <div class="recent-name"><span class="recent-key">Student</span><strong id="recentStudent">—</strong></div>
+          <div class="recent-month"><span class="recent-key">Month</span><strong id="recentMonth">—</strong></div>
+          <div class="recent-date"><span class="recent-key">Saved</span><strong id="recentDate">—</strong></div>
+          <div class="recent-phase">
+            <span class="recent-key">Phase 1</span><strong id="recentP1">0.00%</strong>
+            <span class="recent-key">Phase 2</span><strong id="recentP2">0.00%</strong>
+          </div>
+          <div class="recent-pill-wrap"><span class="status-pill none" id="recentPill">No Data</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="empty-state" id="recentEmpty" style="display:none;">
+      No attendance entries yet. Save attendance for any student to see activity here.
+    </div>
+  </section>
+
+  <!-- ============================
+       SECTION 5: Quick Actions
+       ============================ -->
+  <section class="card">
+    <h2>Quick Actions</h2>
+    <div class="quick-grid">
+      <a class="quick-card" href="students.html">
+        <span class="icon">👨‍🎓</span>
+        <div class="title">Manage Students</div>
+        <div class="desc">Add, edit, search students</div>
+      </a>
+      <a class="quick-card" href="attendance.html">
+        <span class="icon">📅</span>
+        <div class="title">Mark Attendance</div>
+        <div class="desc">Phase 1 (1–15) or Phase 2 (16–30/31)</div>
+      </a>
+      <a class="quick-card" href="reports.html">
+        <span class="icon">📊</span>
+        <div class="title">View Reports</div>
+        <div class="desc">Monthly & overall percentage</div>
+      </a>
+      <a class="quick-card" href="settings.html">
+        <span class="icon">⚙️</span>
+        <div class="title">Settings</div>
+        <div class="desc">Export, import, reset data</div>
+      </a>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="card">
+    <h2>About this Project</h2>
+    <p style="color: var(--muted); font-size: 0.92rem;">
+      Attendance Tracker <strong>v1.0.0</strong> is built for CRs and Class Teachers.
+      Data is stored locally in your browser. Use <strong>Settings → Export JSON</strong> regularly to back up your data.
+      <strong>
+    </p>
+  </section>
+</main>
+
+<footer>Attendance Tracker v1.1.0 · Light Bluish Theme · Dashboard</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

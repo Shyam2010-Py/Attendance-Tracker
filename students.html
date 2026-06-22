@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Tracker — Students</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#3b82f6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Attendance" />
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <div class="brand">📘 Attendance Tracker</div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="attendance.html">Attendance</a>
+      <a href="reports.html">Reports</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>👨‍🎓 Student Management</h1>
+  <p class="subtitle">Add, edit, search and manage up to <strong>66 students</strong>.</p>
+
+  <!-- Add / Edit Form -->
+  <section class="card">
+    <h2 id="formTitle">Add Student</h2>
+    <form id="studentForm" autocomplete="off">
+      <input type="hidden" id="editId" />
+      <div class="form-row">
+        <div class="form-field">
+          <label for="pinInput">PIN Number</label>
+          <input type="text" id="pinInput" placeholder="e.g. 25018-EC-001" maxlength="20" required />
+        </div>
+        <div class="form-field">
+          <label for="nameInput">Student Name</label>
+          <input type="text" id="nameInput" placeholder="e.g. Arun Kumar" maxlength="60" required />
+        </div>
+        <button type="submit" id="submitBtn" class="btn">Add Student</button>
+      </div>
+      <div class="error-msg" id="formMessage"></div>
+      <div style="margin-top: 10px;">
+        <button type="button" id="cancelBtn" class="btn secondary" style="display:none;">Cancel Edit</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- List Section -->
+  <section class="card">
+    <div class="counter-line">
+      <h2 style="margin:0;">Student List</h2>
+      <div>
+        <input type="search" id="searchInput" class="search-input" placeholder="Search by PIN or Name…" />
+        <span class="count" id="studentCount" style="margin-left:8px;">0 of 0 / 66</span>
+      </div>
+    </div>
+
+    <!-- Desktop / tablet table -->
+    <div class="student-table-wrap">
+      <table class="student-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">PIN</th>
+            <th>Name</th>
+            <th style="width: 22%;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="studentTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- Mobile card list -->
+    <div class="mobile-list" id="mobileList"></div>
+
+    <div class="empty-state" id="emptyState">No students yet. Add your first student above to get started.</div>
+  </section>
+</main>
+
+<!-- Edit Modal (unused placeholder for future) -->
+<div class="modal-backdrop" id="editModal" data-close-modal>
+  <div class="modal">
+    <h3>Edit Student</h3>
+    <p>Edit the student details using the form at the top of the page.</p>
+    <div class="modal-actions">
+      <button class="btn secondary" data-close-modal>Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal-backdrop" id="deleteModal">
+  <div class="modal">
+    <h3>Delete Student?</h3>
+    <p>This will permanently remove <strong id="deleteStudentName"></strong> and all their attendance records. This action cannot be undone.</p>
+    <div class="modal-actions">
+      <button class="btn secondary" data-close-modal>Cancel</button>
+      <button class="btn danger" id="confirmDeleteBtn">Delete</button>
+    </div>
+  </div>
+</div>
+
+<footer>Attendance Tracker v1.0.0 · Student Management</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+<script src="js/students.js"></script>
+</body>
+</html>

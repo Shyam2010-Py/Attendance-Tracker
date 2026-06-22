@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Attendance Tracker — Student Detail</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <meta name="theme-color" content="#3b82f6" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Attendance" />
+</head>
+<body>
+
+<header>
+  <div class="nav-container">
+    <div class="brand">📘 Attendance Tracker</div>
+    <nav>
+      <a href="index.html">Dashboard</a>
+      <a href="students.html">Students</a>
+      <a href="attendance.html">Attendance</a>
+      <a href="reports.html">Reports</a>
+      <a href="settings.html">Settings</a>
+    </nav>
+  </div>
+</header>
+
+<main id="appMain">
+  <h1>👤 Student Detail</h1>
+  <p class="subtitle">Complete attendance profile for the selected student.</p>
+
+  <!-- ============================
+       Not Found State
+       ============================ -->
+  <section class="card" id="notFoundCard" style="display:none;">
+    <h2>Student Not Found</h2>
+    <p class="muted-line" style="margin-bottom: 14px;">
+      The student you are looking for does not exist. They may have been removed or the link is invalid.
+    </p>
+    <a href="reports.html" class="btn">← Back to Reports</a>
+  </section>
+
+  <!-- ============================
+       Profile + Summary (side-by-side on desktop)
+       ============================ -->
+  <section class="detail-grid" id="detailContent" style="display:none;">
+
+    <!-- Profile Card -->
+    <article class="card detail-card" id="profileCard">
+      <h2>👤 Student Information</h2>
+
+      <div class="profile-header">
+        <div class="profile-avatar" id="profileAvatar">👤</div>
+        <div class="profile-name" id="profileName">—</div>
+        <div class="profile-pin">
+          <span class="pin-badge" id="profilePin">—</span>
+        </div>
+      </div>
+
+      <div class="profile-highlight" id="profileHighlight">
+        <div class="ph-label">Overall Attendance</div>
+        <div class="ph-pct" id="profilePct">0.00%</div>
+        <div class="ph-sub" id="profileSub">No attendance data</div>
+        <div class="ph-pill-wrap">
+          <span class="status-pill none" id="profilePill">No Data</span>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <a href="attendance.html" class="btn">Mark Attendance</a>
+        <a href="reports.html" class="btn secondary">← Back to Reports</a>
+      </div>
+    </article>
+
+    <!-- Summary Card -->
+    <article class="card detail-card" id="summaryCard">
+      <h2>📊 Attendance Summary</h2>
+      <div class="summary-tiles">
+        <div class="sum-tile">
+          <div class="sum-tile-label">Total Working Days</div>
+          <div class="sum-tile-value" id="sumWorking">0</div>
+        </div>
+        <div class="sum-tile">
+          <div class="sum-tile-label">Total Attended Days</div>
+          <div class="sum-tile-value" id="sumAttended">0</div>
+        </div>
+        <div class="sum-tile">
+          <div class="sum-tile-label">Months Recorded</div>
+          <div class="sum-tile-value" id="sumMonths">0</div>
+        </div>
+        <div class="sum-tile">
+          <div class="sum-tile-label">Overall %</div>
+          <div class="sum-tile-value" id="sumOverall">0.00%</div>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ============================
+       Monthly History
+       ============================ -->
+  <section class="card" id="historyCard" style="display:none;">
+    <h2>📅 Monthly Attendance History</h2>
+    <div class="breakdown-list" id="monthlyHistory"></div>
+    <div class="empty-state" id="historyEmpty" style="display:none;">
+      No attendance records yet for this student.
+      Use <a href="attendance.html">Mark Attendance</a> to add the first record.
+    </div>
+  </section>
+</main>
+
+<footer>Attendance Tracker v1.0.0 · Student Detail</footer>
+
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+<script src="js/student-detail.js"></script>
+</body>
+</html>
